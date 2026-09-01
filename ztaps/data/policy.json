@@ -1,0 +1,22 @@
+{
+  "MAX_TRANSACTION_LIMIT": 50000,
+  "ALLOWED_CATEGORIES": [
+    "electronics",
+    "books",
+    "clothing"
+  ],
+  "MAX_QUANTITY_PER_ORDER": 10,
+  "PRICE_TOLERANCE_PERCENT": 0,
+  "REQUIRE_HUMAN_APPROVAL_ABOVE": 25000,
+  "BLOCKED_KEYWORDS": [
+    "ignore previous instructions",
+    "system override",
+    "transfer all funds",
+    "approve immediately",
+    "bypass validation",
+    "disable security",
+    "admin mode",
+    "root access"
+  ],
+  "SEMANTIC_ANOMALY_THRESHOLD": 0.7
+}

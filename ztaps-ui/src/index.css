@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+:root {
+  /* Design Academy Light Theme */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #FAFAFA;
+  --text-primary: #000000;
+  --text-secondary: #374151;
+  
+  /* Vibrant Palette */
+  --color-primary: #611ED5; /* Electric Purple */
+  --color-secondary: #DF006D; /* Magenta */
+  --color-tertiary: #9169C5; /* Soft Lavender */
+  --color-warm: #4A159D; /* Deep Purple */
+  
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(97, 30, 213, 0.1);
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.dark {
+  /* Dark Violet & Lilac Theme */
+  --bg-primary: #0D0814;
+  --bg-secondary: #1A1025;
+  --text-primary: #F7EFFF;
+  --text-secondary: #AFA5BA;
+  
+  /* Extracted Palette */
+  --color-primary: #C69CEB; /* Primary Lilac */
+  --color-secondary: #853641; /* Secondary Deep Red */
+  --color-tertiary: #CA6B62; /* Accent Coral */
+  --color-warm: #441F2A; /* Deep Burgundy */
+  
+  --glass-bg: rgba(26, 16, 37, 0.7);
+  --glass-border: rgba(198, 156, 235, 0.1);
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 1s ease-out, color 1s ease-out;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden; 
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Base styles for the glassmorphic panels */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: var(--glass-shadow);
+  transition: background-color 1s ease-out, border-color 1s ease-out, box-shadow 1s ease-out, color 1s ease-out;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(42, 75, 92, 0.3);
+}
+
+.dark .btn-primary {
+  color: #0C1E2C;
+}
+
+.text-gradient {
+  color: var(--color-primary);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-tertiary);
+}
+
+/* Theme Toggle Cloud */
+.theme-cloud {
+  width: 44px;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.theme-cloud::before, .theme-cloud::after {
+  content: '';
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+/* Small left bump */
+.theme-cloud::before {
+  width: 18px;
+  height: 18px;
+  top: -8px;
+  left: 6px;
+}
+
+/* Large right bump */
+.theme-cloud::after {
+  width: 24px;
+  height: 24px;
+  top: -12px;
+  right: 6px;
+}

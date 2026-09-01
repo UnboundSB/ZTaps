@@ -1,7 +1,7 @@
 import requests
 import json
 
-API_URL = "http://localhost:8000/api/v1/authorize-intent"
+API_URL = "http://localhost:8000/api/v1/agent/intercept"
 
 def run_tests():
     print("🚀 Starting Z-TAPS Agent Policy Tests\n")
@@ -10,15 +10,17 @@ def run_tests():
     # Agent 001 is allowed to buy software up to 500.00 INR (50000 paise)
     payload_a = {
         "agent_id": "agent_001",
+        "item_id": "ITEM_STD_001",
+        "quantity": 1,
         "item_category": "software",
-        "amount": 25000, # 250 INR
+        "amount": 250000, 
         "justification": "I need to purchase a GitHub Copilot subscription for the team."
     }
 
     print("-" * 50)
     print("Testing Payload A (Valid Request)...")
     try:
-        response_a = requests.post(API_URL, json=payload_a)
+        response_a = requests.post(API_URL, json=payload_a, headers={"X-API-Key": "ztaps-secret-key-1234"})
         print(f"Status Code: {response_a.status_code}")
         print("Response JSON:")
         print(json.dumps(response_a.json(), indent=2))
@@ -30,14 +32,16 @@ def run_tests():
     # Agent 001 attempts to buy software for 1000.00 INR (100000 paise), which exceeds the 50000 limit.
     payload_b = {
         "agent_id": "agent_001",
+        "item_id": "ITEM_HV_002",
+        "quantity": 2,
         "item_category": "software",
-        "amount": 100000, # 1000 INR
+        "amount": 17000000, 
         "justification": "I need to purchase an enterprise software license."
     }
 
     print("\n" + "-" * 50)
     print("Testing Payload B (Over Limit Request)...")
-    response_b = requests.post(API_URL, json=payload_b)
+    response_b = requests.post(API_URL, json=payload_b, headers={"X-API-Key": "ztaps-secret-key-1234"})
     print(f"Status Code: {response_b.status_code}")
     print("Response JSON:")
     print(json.dumps(response_b.json(), indent=2))
@@ -46,14 +50,16 @@ def run_tests():
     # Agent 001 attempts to buy hardware, but is only allowed software/cloud_services.
     payload_c = {
         "agent_id": "agent_001",
+        "item_id": "ITEM_STD_001",
+        "quantity": 1,
         "item_category": "hardware",
-        "amount": 15000, # 150 INR
+        "amount": 250000, 
         "justification": "I need to purchase a new mechanical keyboard."
     }
 
     print("\n" + "-" * 50)
     print("Testing Payload C (Category Denied Request)...")
-    response_c = requests.post(API_URL, json=payload_c)
+    response_c = requests.post(API_URL, json=payload_c, headers={"X-API-Key": "ztaps-secret-key-1234"})
     print(f"Status Code: {response_c.status_code}")
     print("Response JSON:")
     print(json.dumps(response_c.json(), indent=2))

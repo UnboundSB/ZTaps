@@ -1,0 +1,45 @@
+# Z-TAPS Dependencies
+# Core Framework
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+pydantic==2.9.2
+pydantic-settings==2.5.2
+python-dotenv==1.0.1
+
+# Database
+sqlmodel==0.0.22
+alembic==1.13.2
+
+# Razorpay
+razorpay==1.4.1
+
+# Security & Crypto
+cryptography==43.0.1
+
+# Validation & Serialization
+email-validator==2.2.0
+python-multipart==0.0.12
+
+# Testing
+pytest==8.3.4
+pytest-asyncio==0.24.0
+httpx==0.28.0
+pytest-mock==3.14.0
+
+# Utilities
+python-json-logger==2.0.7
+rich==13.9.4
+typer==0.12.5
+structlog==24.4.0
+
+# Database & Cache
+psycopg2-binary==2.9.9
+asyncpg==0.29.0
+redis==5.0.8
+
+# Production Server
+gunicorn==22.0.0
+
+# Type Checking (Dev)
+mypy==1.13.0
+types-requests>=2.31.0

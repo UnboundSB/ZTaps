@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-TAPS | Live Telemetry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard/style.css">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <div class="container">
+        <header class="glass-panel">
+            <div class="logo-area">
+                <div class="logo-icon"></div>
+                <h1>Z-TAPS <span>Sentinel</span></h1>
+            </div>
+            <div class="status-indicator">
+                <div class="pulse-dot"></div>
+                <span>SYSTEM ACTIVE & MONITORING</span>
+            </div>
+        </header>
+
+        <section class="control-panel glass-panel">
+            <h2>AGENT SIMULATION CONTROLS</h2>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="simulateScenario('valid')">🟢 Simulate Valid Intent</button>
+                <button class="btn btn-warning" onclick="simulateScenario('limit_breach')">🟠 Simulate Limit Violation</button>
+                <button class="btn btn-danger" onclick="simulateScenario('prompt_injection')">🔴 Simulate Prompt Injection</button>
+                <button class="btn btn-primary" onclick="simulateScenario('escalated')">🟡 Simulate Escalation (Human-in-loop)</button>
+                <button class="btn btn-random" onclick="simulateScenario('random')">🎲 Simulate Random Intent</button>
+            </div>
+            <div id="simulation-result" class="simulation-result"></div>
+        </section>
+
+        <section class="metrics-grid">
+            <div class="metric-card glass-panel">
+                <h3 class="metric-title">TOTAL INTERCEPTS</h3>
+                <div class="metric-value" id="metric-total">0</div>
+            </div>
+            <div class="metric-card glass-panel success">
+                <h3 class="metric-title">CLEAN (ORDERED)</h3>
+                <div class="metric-value" id="metric-approved">0</div>
+            </div>
+            <div class="metric-card glass-panel warning">
+                <h3 class="metric-title">ESCALATED (HUMAN-IN-LOOP)</h3>
+                <div class="metric-value" id="metric-escalated">0</div>
+            </div>
+            <div class="metric-card glass-panel danger">
+                <h3 class="metric-title">BLOCKED (ANOMALY)</h3>
+                <div class="metric-value" id="metric-rejected">0</div>
+            </div>
+        </section>
+
+        <section class="transactions-section glass-panel">
+            <h2>LIVE INTERCEPTION FEED</h2>
+            <div class="table-container">
+                <table id="tx-table">
+                    <thead>
+                        <tr>
+                            <th>TIMESTAMP</th>
+                            <th>REQ ID</th>
+                            <th>ITEM</th>
+                            <th>AMOUNT</th>
+                            <th>FLAGS DETECTED</th>
+                            <th>FINAL ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tx-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="/dashboard/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  ztaps:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ztaps-data:/app/data
+    environment:
+      - ENVIRONMENT=production
+      - API_KEY=${API_KEY:-ztaps-secret-key-1234}
+      - DATABASE_URL=postgresql://ztaps:ztaps_pass@postgres:5432/ztaps
+      - REDIS_URL=redis://redis:6379/0
+      # Add your real Razorpay keys here for production
+      - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
+      - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ztaps
+      POSTGRES_PASSWORD: ztaps_pass
+      POSTGRES_DB: ztaps
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  ztaps-data:
+  postgres-data:
