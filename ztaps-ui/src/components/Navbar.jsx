@@ -6,9 +6,16 @@ import ApiKeyModal from './ApiKeyModal';
 
 const Navbar = ({ theme, toggleTheme }) => {
   const [isApiModalOpen, setIsApiModalOpen] = useState(false);
+  const isDark = theme === 'dark';
+  
   return (
     <nav className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
-      <div className="glass-panel mx-4 mt-4 px-6 py-4 flex justify-between items-center">
+      <div 
+        className="claymorphic-panel mx-4 mt-4 px-6 py-4 flex justify-between items-center backdrop-blur-md"
+        style={{
+          backgroundColor: isDark ? 'rgba(40, 25, 45, 0.8)' : 'rgba(255, 235, 225, 0.9)' // Subtle peach in light, deep violet in dark
+        }}
+      >
         
         {/* Logo Area */}
         <Link to="/" className="flex items-center space-x-2">
@@ -25,7 +32,7 @@ const Navbar = ({ theme, toggleTheme }) => {
           <Link to="/audit" className="text-sm font-semibold hover:text-[var(--color-secondary)] transition-colors">Audit Log</Link>
           <button 
             onClick={() => setIsApiModalOpen(true)}
-            className="btn-primary px-4 py-2 rounded text-sm"
+            className="claymorphic-btn px-4 py-2 text-sm"
           >
             Get API Key
           </button>

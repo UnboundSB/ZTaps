@@ -403,6 +403,26 @@ const AgentChat = () => {
       {/* Skeuomorphic Phone Outer Casing (Polished Metal Finish) */}
       <div className="relative w-[400px] h-[800px] bg-gradient-to-br from-gray-400 via-gray-100 to-gray-500 dark:from-gray-600 dark:via-gray-400 dark:to-gray-800 rounded-[3.5rem] p-[10px] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.7),inset_0_0_0_2px_rgba(255,255,255,0.6),inset_0_0_8px_rgba(0,0,0,0.2)] border border-gray-300 dark:border-gray-700 z-10">
         
+        {/* Diagram Marker for Buttons */}
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1.5, duration: 0.8 }}
+          className="absolute top-[100px] left-[-260px] w-[240px] h-[100px] pointer-events-none z-50 hidden md:block"
+        >
+           <svg width="240" height="100" viewBox="0 0 240 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0 right-0">
+              <circle cx="230" cy="80" r="4" fill="currentColor" className="text-[var(--color-primary)] shadow-[0_0_10px_currentColor]" />
+              <path d="M 230 80 Q 180 80 150 40 T 10 20" stroke="currentColor" className="text-[var(--color-primary)] opacity-70" strokeWidth="2" strokeLinecap="round" strokeDasharray="5 5" fill="none" />
+           </svg>
+           <div className="absolute top-0 left-0 text-[var(--color-primary)] font-bold text-sm px-3 py-1.5 rounded-xl bg-[var(--bg-primary)] border border-[var(--color-primary)]/40 shadow-lg whitespace-nowrap flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-primary)] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-primary)]"></span>
+              </span>
+              * Interactive Virtual Buttons
+           </div>
+        </motion.div>
+
         {/* Hardware Buttons (Shiny Metal) */}
         <div className="absolute left-[-6px] top-[150px] w-[6px] h-[40px] bg-gradient-to-b from-gray-500 via-gray-300 to-gray-500 dark:from-gray-800 dark:via-gray-500 dark:to-gray-800 rounded-l-md border-y border-l border-gray-400 dark:border-gray-700 shadow-[inset_1px_0_2px_rgba(255,255,255,0.6),-2px_0_4px_rgba(0,0,0,0.3)]"></div>
         <div className="absolute left-[-6px] top-[210px] w-[6px] h-[80px] bg-gradient-to-b from-gray-500 via-gray-300 to-gray-500 dark:from-gray-800 dark:via-gray-500 dark:to-gray-800 rounded-l-md border-y border-l border-gray-400 dark:border-gray-700 shadow-[inset_1px_0_2px_rgba(255,255,255,0.6),-2px_0_4px_rgba(0,0,0,0.3)]"></div>

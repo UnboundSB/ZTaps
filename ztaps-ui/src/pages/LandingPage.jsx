@@ -55,7 +55,7 @@ const LandingPage = () => {
             <Link to="/chat" className="px-8 py-4 claymorphic-btn text-lg">
               Launch Sentinel
             </Link>
-            <Link to="/audit" className="px-8 py-4 claymorphic-panel font-semibold hover:bg-[var(--glass-border)] transition-colors text-[var(--text-primary)]">
+            <Link to="/audit" className="px-8 py-4 claymorphic-panel font-semibold hover:bg-[var(--glass-border)] hover:scale-105 transition-transform text-[var(--text-primary)]">
               View Audit Log
             </Link>
           </div>
