@@ -82,7 +82,15 @@ def intercept_agent_call(intent: PurchaseIntent, background_tasks: BackgroundTas
             flags.append("ITEM_NOT_FOUND")
             reason = f"Item '{intent.item_id}' not found in the catalog."
         else:
-            allowed_categories = [c.lower() for c in json.loads(policy.allowed_categories)]
+            category_limits_list = json.loads(policy.allowed_categories)
+            category_limits_map = {
+                (c.get("name") or "").lower(): {"min": c.get("min", 0), "max": c.get("max", 0)}
+                for c in category_limits_list if isinstance(c, dict)
+            }
+            # Fallback for old data if it's just strings
+            if category_limits_list and isinstance(category_limits_list[0], str):
+                 category_limits_map = {c.lower(): {"min": 0, "max": policy.max_spend} for c in category_limits_list}
+
             blocked_keywords = json.loads(policy_config.blocked_keywords)
             
             # Policy constraints
@@ -90,10 +98,16 @@ def intercept_agent_call(intent: PurchaseIntent, background_tasks: BackgroundTas
             lower_bound = getattr(policy_config, "lower_limit", 0)
             upper_bound = getattr(policy_config, "upper_limit", 100000000)
             
-            if intent.item_category.lower() not in allowed_categories:
+            cat_name = intent.item_category.lower()
+            
+            if cat_name not in category_limits_map:
                 action = "REJECTED"
                 flags.append("CATEGORY_VIOLATION")
                 reason = f"Agent '{intent.agent_id}' is not authorized to purchase in category '{intent.item_category}'."
+            elif intent.amount < category_limits_map[cat_name]["min"] or intent.amount > category_limits_map[cat_name]["max"]:
+                action = "REJECTED"
+                flags.append("CATEGORY_LIMIT_VIOLATION")
+                reason = f"Transaction amount {intent.amount} is outside limits ({category_limits_map[cat_name]['min']} - {category_limits_map[cat_name]['max']}) for category '{intent.item_category}'."
             elif intent.quantity > policy_config.max_quantity_per_order:
                 action = "REJECTED"
                 flags.append("QUANTITY_LIMIT_EXCEEDED")
@@ -133,7 +147,8 @@ def intercept_agent_call(intent: PurchaseIntent, background_tasks: BackgroundTas
     # 4. Razorpay Execution
     try:
         if action == "APPROVED_ORDER":
-            order_id = f"order_{uuid.uuid4().hex[:14]}"
+            rzp_order = razorpay_service.create_order(amount_paise=intent.amount, receipt=request_id)
+            order_id = rzp_order.get("id")
             enqueue_log(order_id=order_id)
             return SentinelResponse(
                 status="approved",
@@ -141,7 +156,11 @@ def intercept_agent_call(intent: PurchaseIntent, background_tasks: BackgroundTas
                 reason=reason
             )
         elif action == "ESCALATED_PAYMENT_LINK":
-            link_id = f"plink_{uuid.uuid4().hex[:14]}"
+            rzp_link = razorpay_service.create_payment_link(amount_paise=intent.amount, description=reason, reference_id=request_id)
+            link_id = rzp_link.get("id")
+            short_url = rzp_link.get("short_url")
+            if short_url:
+                reason = f"{reason} Link: {short_url}"
             enqueue_log(link_id=link_id)
             return SentinelResponse(
                 status="escalated",
@@ -164,3 +183,32 @@ def intercept_agent_call(intent: PurchaseIntent, background_tasks: BackgroundTas
         action = "ERROR"
         enqueue_log()
         raise HTTPException(status_code=500, detail="Payment gateway error")
+
+from pydantic import BaseModel
+class ActionUpdate(BaseModel):
+    transaction_id: str
+    action: str
+
+@router.post("/action", dependencies=[Depends(verify_api_key)])
+def update_action(update: ActionUpdate, session: Session = Depends(get_session)):
+    """
+    Updates the action status of a transaction (e.g. user approved or rejected an escalated payment).
+    """
+    # Try finding by link_id
+    tx = session.exec(select(Transaction).where(Transaction.link_id == update.transaction_id)).first()
+    if tx:
+        tx.action = update.action
+        session.add(tx)
+        session.commit()
+        return {"status": "success"}
+    
+    # Try finding by order_id
+    tx = session.exec(select(Transaction).where(Transaction.order_id == update.transaction_id)).first()
+    if tx:
+        tx.action = update.action
+        session.add(tx)
+        session.commit()
+        return {"status": "success"}
+
+    raise HTTPException(status_code=404, detail="Transaction not found")
+

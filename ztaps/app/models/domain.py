@@ -12,7 +12,7 @@ class Policy(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     agent_id: str = Field(index=True, unique=True)
     max_spend: int
-    allowed_categories: str # JSON list of categories
+    allowed_categories: str # JSON list of objects: [{"name": "hardware", "min": 0, "max": 200000}]
 
 class PurchaseIntent(BaseModel):
     agent_id: str

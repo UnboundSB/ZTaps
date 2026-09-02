@@ -52,10 +52,10 @@ const LandingPage = () => {
           </p>
           
           <div className="flex gap-6 justify-center">
-            <Link to="/chat" className="px-8 py-4 btn-primary rounded-lg text-lg hover:scale-105 transition-transform">
+            <Link to="/chat" className="px-8 py-4 claymorphic-btn text-lg">
               Launch Sentinel
             </Link>
-            <Link to="/audit" className="px-8 py-4 glass-panel font-semibold hover:bg-[var(--glass-border)] transition-colors text-[var(--text-primary)]">
+            <Link to="/audit" className="px-8 py-4 claymorphic-panel font-semibold hover:bg-[var(--glass-border)] transition-colors text-[var(--text-primary)]">
               View Audit Log
             </Link>
           </div>
@@ -69,9 +69,8 @@ const LandingPage = () => {
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-24 glass-panel p-8 md:p-12"
+          className="mb-24 claymorphic-panel p-8 md:p-12"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-[var(--color-secondary)] font-display">
             The Agentic Era Requires Agentic Security
@@ -85,9 +84,8 @@ const LandingPage = () => {
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-24 glass-panel p-8 md:p-12 ml-auto"
+          className="mb-24 claymorphic-panel p-8 md:p-12 ml-auto"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-[var(--color-primary)] font-display">
             Contextual Threat Detection
@@ -108,7 +106,7 @@ const LandingPage = () => {
           <h2 className="text-4xl font-bold mb-8 text-[var(--text-primary)] font-display">
             Ready to secure your agents?
           </h2>
-          <Link to="/chat" className="px-10 py-5 btn-primary rounded-lg text-xl hover:scale-105 transition-transform inline-block">
+          <Link to="/chat" className="px-10 py-5 claymorphic-btn text-xl inline-block">
             Try the Interactive Demo
           </Link>
         </motion.div>

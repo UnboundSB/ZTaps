@@ -8,10 +8,15 @@ import json
 
 router = APIRouter()
 
+class CategoryLimit(BaseModel):
+    name: str
+    min: int = Field(ge=0)
+    max: int = Field(gt=0)
+
 class PolicyCreateOrUpdate(BaseModel):
     agent_id: str
     max_spend: int = Field(gt=0)
-    allowed_categories: list[str]
+    allowed_categories: list[CategoryLimit]
 
 @router.post("/policy", status_code=status.HTTP_200_OK, dependencies=[Depends(verify_api_key)])
 def configure_policy(
@@ -24,7 +29,7 @@ def configure_policy(
     statement = select(Policy).where(Policy.agent_id == policy_data.agent_id)
     existing_policy = session.exec(statement).first()
     
-    cat_json = json.dumps(policy_data.allowed_categories)
+    cat_json = json.dumps([c.model_dump() for c in policy_data.allowed_categories])
     
     if existing_policy:
         existing_policy.max_spend = policy_data.max_spend
@@ -45,6 +50,7 @@ def configure_policy(
 class GlobalConfigUpdate(BaseModel):
     lower_limit: int
     upper_limit: int
+    require_human_approval_above: int
 
 @router.post("/config", status_code=status.HTTP_200_OK, dependencies=[Depends(verify_api_key)])
 def update_global_config(
@@ -57,6 +63,7 @@ def update_global_config(
     if config:
         config.lower_limit = config_data.lower_limit
         config.upper_limit = config_data.upper_limit
+        config.require_human_approval_above = config_data.require_human_approval_above
         session.add(config)
         session.commit()
     return {"status": "success", "message": "Global config updated"}

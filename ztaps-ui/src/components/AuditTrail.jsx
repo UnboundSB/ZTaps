@@ -32,19 +32,19 @@ const AuditTrail = () => {
   return (
     <div className="w-full">
       <h2 className="text-4xl font-bold mb-8 text-center text-[var(--text-primary)]">Live Audit Trail</h2>
-      <div className="glass-panel w-full p-6">
-        <div className="w-full overflow-x-auto">
+      <div className="claymorphic-panel w-full p-8 mb-8">
+        <div className="w-full overflow-x-auto p-4">
           {loading ? (
-            <div className="text-center py-10 text-[var(--text-secondary)]">Loading securely audited data...</div>
+            <div className="text-center py-10 text-[var(--text-secondary)] font-medium">Loading securely audited data...</div>
           ) : (
-              <table className="w-full text-left border-collapse min-w-[800px]">
+              <table className="w-full text-left border-separate border-spacing-y-4 min-w-[800px]">
               <thead>
-                <tr className="border-b-2 border-[var(--bg-secondary)]">
-                  <th className="p-4 text-[var(--text-secondary)] font-semibold uppercase tracking-wider text-xs">Timestamp</th>
-                  <th className="p-4 text-[var(--text-secondary)] font-semibold uppercase tracking-wider text-xs">Request ID</th>
-                  <th className="p-4 text-[var(--text-secondary)] font-semibold uppercase tracking-wider text-xs">Action</th>
-                  <th className="p-4 text-[var(--text-secondary)] font-semibold uppercase tracking-wider text-xs">Amount</th>
-                  <th className="p-4 text-[var(--text-secondary)] font-semibold uppercase tracking-wider text-xs">Status</th>
+                <tr>
+                  <th className="px-6 py-4 text-[var(--text-secondary)] font-bold uppercase tracking-wider text-xs">Timestamp</th>
+                  <th className="px-6 py-4 text-[var(--text-secondary)] font-bold uppercase tracking-wider text-xs">Request ID</th>
+                  <th className="px-6 py-4 text-[var(--text-secondary)] font-bold uppercase tracking-wider text-xs">Action</th>
+                  <th className="px-6 py-4 text-[var(--text-secondary)] font-bold uppercase tracking-wider text-xs">Amount</th>
+                  <th className="px-6 py-4 text-[var(--text-secondary)] font-bold uppercase tracking-wider text-xs">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -54,24 +54,24 @@ const AuditTrail = () => {
                   </tr>
                 ) : (
                   logs.map((log) => (
-                    <tr key={log.request_id} className="border-b border-[var(--bg-secondary)] hover:bg-[var(--bg-primary)] transition-colors">
-                      <td className="p-4 font-mono text-sm text-[var(--text-secondary)]">
+                    <tr key={log.request_id} className="claymorphic-row hover:scale-[1.01] transition-transform duration-300">
+                      <td className="claymorphic-cell px-6 py-5 font-mono text-sm text-[var(--text-secondary)]">
                         {new Date(log.timestamp).toLocaleString()}
                       </td>
-                      <td className="p-4 text-[var(--color-primary)] font-mono font-medium">{log.request_id.substring(0, 8)}</td>
-                      <td className="p-4 text-[var(--text-primary)] font-medium">{log.action || 'Payment'}</td>
-                      <td className="p-4 text-[var(--text-primary)] font-medium">₹{(log.requested_amount / 100).toFixed(2)}</td>
-                      <td className="p-4">
+                      <td className="claymorphic-cell px-6 py-5 text-[var(--color-primary)] font-mono font-bold">{log.request_id.substring(0, 8)}</td>
+                      <td className="claymorphic-cell px-6 py-5 text-[var(--text-primary)] font-semibold">{log.action || 'Payment'}</td>
+                      <td className="claymorphic-cell px-6 py-5 text-[var(--text-primary)] font-bold">₹{(log.requested_amount / 100).toFixed(2)}</td>
+                      <td className="claymorphic-cell px-6 py-5">
                         {log.action === 'REJECTED' ? (
-                          <span className="px-3 py-1 bg-red-100 text-red-600 rounded text-xs font-bold shadow-sm">
+                          <span className="px-4 py-2 bg-red-500/10 text-red-600 dark:text-red-400 rounded-lg text-xs font-bold shadow-[inset_2px_2px_4px_rgba(255,0,0,0.1),_inset_-2px_-2px_4px_rgba(0,0,0,0.05)] border border-red-500/20">
                             BLOCKED
                           </span>
                         ) : log.action === 'ESCALATED_PAYMENT_LINK' ? (
-                          <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded text-xs font-bold shadow-sm">
+                          <span className="px-4 py-2 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 rounded-lg text-xs font-bold shadow-[inset_2px_2px_4px_rgba(255,200,0,0.1),_inset_-2px_-2px_4px_rgba(0,0,0,0.05)] border border-yellow-500/20">
                             PENDING
                           </span>
                         ) : (
-                          <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded text-xs font-bold shadow-sm">
+                          <span className="px-4 py-2 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 rounded-lg text-xs font-bold shadow-[inset_2px_2px_4px_rgba(0,255,0,0.1),_inset_-2px_-2px_4px_rgba(0,0,0,0.05)] border border-emerald-500/20">
                             APPROVED
                           </span>
                         )}

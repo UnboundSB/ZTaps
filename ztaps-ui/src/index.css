@@ -67,6 +67,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
   color: var(--bg-primary);
   font-weight: 600;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
@@ -76,6 +77,79 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .dark .btn-primary {
   color: #0C1E2C;
 }
+
+/* Claymorphism Utilities */
+.claymorphic-panel {
+  background: var(--bg-secondary);
+  border-radius: 2rem;
+  box-shadow: 
+    8px 8px 16px rgba(0, 0, 0, 0.05), 
+    -8px -8px 16px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.dark .claymorphic-panel {
+  box-shadow: 
+    10px 10px 20px rgba(0, 0, 0, 0.4), 
+    -10px -10px 20px rgba(255, 255, 255, 0.05),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+.claymorphic-row {
+  background: var(--bg-primary);
+  border-radius: 1rem;
+  box-shadow: 
+    4px 4px 8px rgba(0, 0, 0, 0.04), 
+    -4px -4px 8px rgba(255, 255, 255, 0.8);
+}
+
+.dark .claymorphic-row {
+  box-shadow: 
+    4px 4px 8px rgba(0, 0, 0, 0.3), 
+    -4px -4px 8px rgba(255, 255, 255, 0.05);
+}
+
+.claymorphic-cell:first-child {
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+.claymorphic-cell:last-child {
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.claymorphic-btn {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  box-shadow: 
+    6px 6px 12px rgba(0, 0, 0, 0.15), 
+    -6px -6px 12px rgba(255, 255, 255, 0.1),
+    inset 2px 2px 6px rgba(255, 255, 255, 0.3),
+    inset -2px -2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+.claymorphic-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 
+    8px 8px 16px rgba(0, 0, 0, 0.2), 
+    -4px -4px 10px rgba(255, 255, 255, 0.1),
+    inset 2px 2px 6px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 6px rgba(0, 0, 0, 0.3);
+}
+.claymorphic-btn:active {
+  transform: scale(0.98);
+  box-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.2), 
+    -2px -2px 4px rgba(255, 255, 255, 0.1),
+    inset 4px 4px 8px rgba(0, 0, 0, 0.3),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.2);
+}
+
 
 .text-gradient {
   color: var(--color-primary);
