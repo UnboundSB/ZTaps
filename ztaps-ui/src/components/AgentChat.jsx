@@ -22,7 +22,7 @@ const AgentChat = () => {
     approvalLimit: 500000,       // $5,000.00
     categories: [
       { name: 'hardware', min: 0, max: 200000, keywords: 'laptop, macbook, hardware' },
-      { name: 'software', min: 0, max: 10000000, keywords: 'software, license, app' }
+      { name: 'software', min: 0, max: 50000000, keywords: 'software, license, app' } // $500,000 max
     ]
   });
 
@@ -88,22 +88,22 @@ const AgentChat = () => {
     }
 
     let extractedAmount = null;
-    const priceMatch = text.match(/(?:worth|for|costing|paise|\$|rs\.?|inr|price|amount)\s*(\d+)/i);
+    const priceMatch = text.match(/(?:worth|for|costing|paise|\$|rs\.?|inr|price|amount)\s*([\d,]+)/i);
     if (priceMatch) {
-        extractedAmount = parseInt(priceMatch[1], 10);
+        extractedAmount = parseInt(priceMatch[1].replace(/,/g, ''), 10);
     } else {
-        const numbers = text.match(/\b\d+\b/g);
+        const numbers = text.match(/\b[\d,]+\b/g);
         if (numbers) {
             if (numbers.length >= 2) {
-                if (qtyMatch && numbers[0] === qtyMatch[1]) {
-                    extractedAmount = parseInt(numbers[1], 10);
+                if (qtyMatch && numbers[0].replace(/,/g, '') === qtyMatch[1]) {
+                    extractedAmount = parseInt(numbers[1].replace(/,/g, ''), 10);
                 } else {
-                    extractedQty = parseInt(numbers[0], 10);
-                    extractedAmount = parseInt(numbers[1], 10);
+                    extractedQty = parseInt(numbers[0].replace(/,/g, ''), 10);
+                    extractedAmount = parseInt(numbers[1].replace(/,/g, ''), 10);
                 }
             } else if (numbers.length === 1) {
-                if (!qtyMatch || numbers[0] !== qtyMatch[1]) {
-                    extractedAmount = parseInt(numbers[0], 10);
+                if (!qtyMatch || numbers[0].replace(/,/g, '') !== qtyMatch[1]) {
+                    extractedAmount = parseInt(numbers[0].replace(/,/g, ''), 10);
                 }
             }
         }
@@ -111,13 +111,9 @@ const AgentChat = () => {
 
     payload.quantity = extractedQty;
     if (extractedAmount !== null) {
-        payload.amount = extractedAmount;
+        payload.amount = extractedAmount * 100;
     } else {
         payload.amount = payload.amount * payload.quantity;
-    }
-
-    if (lower.includes('million') || lower.includes('enterprise') || lower.includes('company')) {
-        payload.amount = 500000000;
     }
 
     if (payload.amount === 0) payload.amount = 10000;
